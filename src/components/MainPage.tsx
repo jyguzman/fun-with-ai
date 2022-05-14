@@ -10,12 +10,14 @@ import Completion from "../types/Completion";
 import ResponseList from "./ResponseList";
 import EngineSelect from "./EngineSelect";
 import Header from "./Header";
+import InvalidEngineAlert from "./InvalidEngineAlert";
 
 const MainPage = () => {
     const [prompt, setPrompt] = useState<string>("");
-    const [currentEngine, setCurrentEngine] = useState<string>('text-curie-001');
+    const [currentEngine, setCurrentEngine] = useState<string>('');
     const [completions, setCompletions] = useState<Completion[]>(retrieveCompletions());
     const [loading, setLoading] = useState<boolean>(false);
+    const [openAlert, setOpenAlert] = useState<boolean>(false);
     const engines = useFetchEngines();
 
     const setPromptText = (text: string): void =>  {
@@ -23,16 +25,24 @@ const MainPage = () => {
     }
 
     const submitPrompt = async () => {
-        setLoading(true);
-        const completion = await fetchCompletion(prompt, currentEngine);
-        setCompletions(prev => [...prev, completion]);
-        setLoading(false);
-        saveCompletions(completion);
+        if (!engines.includes(currentEngine)) {
+            setOpenAlert(true);
+        } else {
+            setOpenAlert(false);
+            setLoading(true);
+            const completion = await fetchCompletion(prompt, currentEngine);
+            setCompletions(prev => [...prev, completion]);
+            setLoading(false);
+            saveCompletions(completion);
+        }
     }
 
     const handleEngineSelect = (event: Event, engine: string): void => {
-        if (engine !== null && engines.includes(engine))
-            setCurrentEngine(engine);
+        setCurrentEngine(engine);
+    }
+
+    const closeAlert = (event: Event): void => {
+        setOpenAlert(false);
     }
 
     return (
@@ -59,6 +69,9 @@ const MainPage = () => {
                         handleEngineSelect={handleEngineSelect}></EngineSelect>
                     <SubmitButton submitPrompt={submitPrompt}/>
                 </Stack>
+            </Grid>
+            <Grid item>
+                <InvalidEngineAlert open={openAlert} closeAlert={() => setOpenAlert(false)}/>
             </Grid>
             <Header text={'Responses'}/>
             <Grid item container spacing={2} justifyContent={'flex-start'} alignItems='center' 
