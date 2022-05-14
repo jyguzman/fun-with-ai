@@ -1,15 +1,14 @@
-import ApiResponseBox from "./ApiResponseBox";
+import Response from "./Response";
 import { Stack, Grid } from "@mui/material";
 import Completion from "../types/Completion";
 
-const ApiResponseBoxList = (props: {completions: Completion[]}) => {
-    const completions = props.completions.reverse();
+const ResponseList = (props: {completions: Completion[]}) => {
     return (
-        <Stack spacing={2} justifyContent='center' alignItems='center'>
-            {completions
+        <Stack spacing={2} sx={{width: '100%'}} justifyContent='center' alignItems='center'>
+            {props.completions.slice().reverse()
                 .map((completion: Completion, index: number) => {
                 return (
-                    <ApiResponseBox key={index}
+                    <Response key={index}
                         prompt={completion.prompt}
                         response={completion.response}
                         time={completion.time}
@@ -20,4 +19,4 @@ const ApiResponseBoxList = (props: {completions: Completion[]}) => {
     )
 }
 
-export default ApiResponseBoxList;
+export default ResponseList;

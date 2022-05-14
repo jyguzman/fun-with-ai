@@ -1,6 +1,6 @@
 type Completion = {
-    prompt: String,
-    response: String,
+    prompt: string,
+    response: string,
     time: number
 }
 

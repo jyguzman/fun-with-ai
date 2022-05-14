@@ -1,6 +1,7 @@
 import Completion from "../types/Completion";
+import Engine from "../types/Engine";
 
-const fetchCompletion = async (prompt: String) => {
+export const fetchCompletion = async (prompt: string, engine: string) => {
     const request = {
         prompt: prompt,
         temperature: 0.5,
@@ -9,7 +10,7 @@ const fetchCompletion = async (prompt: String) => {
         frequency_penalty: 0.0,
         presence_penalty: 0.0,
     }
-    const apiResponse = await fetch("https://api.openai.com/v1/engines/text-curie-001/completions", {
+    const apiResponse = await fetch(`https://api.openai.com/v1/engines/${engine}/completions`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -26,4 +27,14 @@ const fetchCompletion = async (prompt: String) => {
     return response;
 }
 
-export default fetchCompletion;
+export const fetchEngines = async () => {
+    const response = await fetch(`https://api.openai.com/v1/engines`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.REACT_APP_OPENAI_SECRET}`,
+        }
+    });
+    const engines = (await response.json()).data;
+    return engines.map((engine: Engine) => engine.id); 
+}

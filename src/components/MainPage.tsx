@@ -1,52 +1,66 @@
 import { useState } from "react";
-import { Grid, Box, Typography } from "@mui/material";
-import PromptField from "./PromptField";
-import SubmitPromptButton from "./SubmitPromptButton";
-import fetchCompletion from "../utils/fetchCompletion";
-import Completion from "../types/Completion";
-import ApiResponseBoxList from "./ApiResponseBoxList";
 import { saveCompletions, retrieveCompletions }  from "../utils/storage_utils";
+import useFetchEngines from "./hooks/useFetchEngines";
+import { fetchCompletion } from "../utils/apiCallFunctions";
+
+import { Stack, Grid } from "@mui/material";
+import PromptField from "./PromptField";
+import SubmitButton from "./SubmitButton";
+import Completion from "../types/Completion";
+import ResponseList from "./ResponseList";
+import EngineSelect from "./EngineSelect";
+import Header from "./Header";
 
 const MainPage = () => {
-    const [prompt, setPrompt] = useState<String>("");
+    const [prompt, setPrompt] = useState<string>("");
+    const [currentEngine, setCurrentEngine] = useState<string>('text-curie-001');
     const [completions, setCompletions] = useState<Completion[]>(retrieveCompletions());
     
-    const styles = {
-        promptField: {
-            FontFace: 'Roboto',
-        }
-    }
+    const engines = useFetchEngines();
 
-    const trackPromptText = (text: String): void =>  {
+    const setPromptText = (text: string): void =>  {
         setPrompt(text);
     }
 
     const submitPrompt = async () => {
-        const completion = await fetchCompletion(prompt);
+        const completion = await fetchCompletion(prompt, currentEngine);
         setCompletions(prev => [...prev, completion]);
         saveCompletions(completion);
     }
 
+    const handleEngineSelect = (event: Event, engine: string): void => {
+        setCurrentEngine(engine);
+    }
+
     return (
-        <Grid sx={{padding: '5%', }} container 
+        <Grid sx={{padding: '5%'}} container 
             direction='column' 
             justifyContent='center'
             alignItems='center'
             spacing={3}>
-            <Grid item sx={{width: ['90%', '85%', '80%', '75%']}}>
-                <Typography  variant='h4' sx={{fontWeight: 'bold'}}>
-                    Fun with AI!
-                </Typography>
-            </Grid>
+            <Header text={'Fun with AI!'}/>
             <Grid item container justifyContent={'center'} 
                 alignItems='center'>
-                <PromptField trackPromptText={trackPromptText}/>
+                <PromptField setPromptText={setPromptText}/>
             </Grid>
-            <Grid item container sx={{width: ['90%', '85%', '80%', '75%', '65%'], paddingBottom: '5%'}} justifyContent={'flex-end'}>
-                <SubmitPromptButton submitPrompt={submitPrompt}/>
+            <Grid item container 
+                sx={{width: ['100%', '95%', '95%', '87.5%', '100%'], 
+                paddingBottom: '5%', margin: 0}} 
+                justifyContent={'flex-end'}
+                alignItems='baseline'>
+                <Stack direction='row' spacing={5} 
+                    justifyContent='flex-end'
+                    alignItems='center'
+                    sx={{width: '100%'}}>
+                    <EngineSelect engines={engines} 
+                        handleEngineSelect={handleEngineSelect}></EngineSelect>
+                    <SubmitButton submitPrompt={submitPrompt}/>
+                </Stack>
             </Grid>
-            <Grid item container spacing={2} justifyContent={'center'} alignItems='center' sx={{width: ['95%', '80%', '65%', '50%', '50%']}}>
-                <ApiResponseBoxList completions={completions}/>
+            <Header text={'Responses'}/>
+            <Grid item container spacing={2} justifyContent={'flex-start'} alignItems='center' 
+            sx={{width: ['100%', '92.5%', '92.5%', '86%', '75%']}}>
+                <ResponseList completions={completions}/>
             </Grid>
         </Grid>
     )
