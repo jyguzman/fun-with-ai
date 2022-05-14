@@ -3,7 +3,7 @@ import { saveCompletions, retrieveCompletions }  from "../utils/storage_utils";
 import useFetchEngines from "../hooks/useFetchEngines";
 import { fetchCompletion } from "../utils/apiCallFunctions";
 
-import { Stack, Grid } from "@mui/material";
+import { Stack, Grid, CircularProgress } from "@mui/material";
 import PromptField from "./PromptField";
 import SubmitButton from "./SubmitButton";
 import Completion from "../types/Completion";
@@ -15,7 +15,7 @@ const MainPage = () => {
     const [prompt, setPrompt] = useState<string>("");
     const [currentEngine, setCurrentEngine] = useState<string>('text-curie-001');
     const [completions, setCompletions] = useState<Completion[]>(retrieveCompletions());
-    
+    const [loading, setLoading] = useState<boolean>(false);
     const engines = useFetchEngines();
 
     const setPromptText = (text: string): void =>  {
@@ -23,13 +23,16 @@ const MainPage = () => {
     }
 
     const submitPrompt = async () => {
+        setLoading(true);
         const completion = await fetchCompletion(prompt, currentEngine);
         setCompletions(prev => [...prev, completion]);
+        setLoading(false);
         saveCompletions(completion);
     }
 
     const handleEngineSelect = (event: Event, engine: string): void => {
-        setCurrentEngine(engine);
+        if (engine !== null && engines.includes(engine))
+            setCurrentEngine(engine);
     }
 
     return (
@@ -60,7 +63,10 @@ const MainPage = () => {
             <Header text={'Responses'}/>
             <Grid item container spacing={2} justifyContent={'flex-start'} alignItems='center' 
             sx={{width: ['100%', '92.5%', '92.5%', '86%', '75%']}}>
-                <ResponseList completions={completions}/>
+                <Stack justifyContent={'center'} alignItems='center' spacing={2}>
+                    {loading ? <CircularProgress/> : null}
+                    <ResponseList completions={completions}/>
+                </Stack>
             </Grid>
         </Grid>
     )

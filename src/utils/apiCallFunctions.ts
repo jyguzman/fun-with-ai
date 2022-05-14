@@ -22,7 +22,6 @@ export const fetchCompletion = async (prompt: string, engine: string) => {
     const response: Completion = {
         prompt: prompt,
         response: data.choices[0].text,
-        time: data.created
     }
     return response;
 }

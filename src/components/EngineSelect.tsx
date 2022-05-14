@@ -4,7 +4,8 @@ const EngineSelect = (props: {engines: string[], handleEngineSelect: Function}) 
     return (
       <Autocomplete
         sx={{width: ['100%', '75%']}}
-        id="breed-search-bar"
+        id="engine-search-bar"
+        aria-required
         defaultValue={'text-curie-001'}
         options={props.engines}
         getOptionLabel={(engine: string) => engine}

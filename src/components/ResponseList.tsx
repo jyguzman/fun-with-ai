@@ -1,5 +1,5 @@
 import Response from "./Response";
-import { Stack, Grid } from "@mui/material";
+import { Stack, Skeleton } from "@mui/material";
 import Completion from "../types/Completion";
 
 const ResponseList = (props: {completions: Completion[]}) => {
@@ -11,7 +11,6 @@ const ResponseList = (props: {completions: Completion[]}) => {
                     <Response key={index}
                         prompt={completion.prompt}
                         response={completion.response}
-                        time={completion.time}
                     />
                 )
             })}
