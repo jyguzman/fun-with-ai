@@ -3,7 +3,7 @@ import { TextField, InputLabel  } from "@mui/material";
 const PromptField = (props: {setPromptText: Function}) => {
     return (
         <TextField 
-            sx={{width: ['100%', '95%', '95%', '87.5%', '65%']}}
+            sx={{width: ['100%', '95%', '95%', '87.5%', '85%']}}
             placeholder="Enter a prompt!"
             multiline
             rows={10}
