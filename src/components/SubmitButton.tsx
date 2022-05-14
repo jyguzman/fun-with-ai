@@ -4,10 +4,10 @@ const SubmitButton = (props: {submitPrompt: Function}) => {
     
     const styles = {
         button: {
-            padding: '2% 5%',
+            padding: '1.5% 5%',
             marginTop: 0,
             FontFace: 'Roboto',
-            fontSize: '85%'
+            fontSize: '85%',
         }
     }
     

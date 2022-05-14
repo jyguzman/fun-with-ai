@@ -48,7 +48,7 @@ const MainPage = () => {
                 paddingBottom: '5%', margin: 0}} 
                 justifyContent={'flex-end'}
                 alignItems='baseline'>
-                <Stack direction='row' spacing={5} 
+                <Stack direction='row' spacing={2} 
                     justifyContent='flex-end'
                     alignItems='center'
                     sx={{width: '100%'}}>

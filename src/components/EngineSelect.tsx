@@ -3,6 +3,7 @@ import { TextField, Autocomplete } from "@mui/material";
 const EngineSelect = (props: {engines: string[], handleEngineSelect: Function}) => {
     return (
       <Autocomplete
+        sx={{width: ['100%', '75%']}}
         id="breed-search-bar"
         defaultValue={'text-curie-001'}
         options={props.engines}
