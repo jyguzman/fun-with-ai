@@ -6,6 +6,8 @@ Cloud Platform Application Engine.
 
 You can enter any prompt you'd like, and the app will query the OpenAI Completions API to send you an AI-generated response to whatever prompt you type! 
 
+The responses you receive are saved, so you can come back to them after refreshing or closing the browser. You can also choose from engines, which provide different AI capabilities.
+
 ## Usage
 
 The easiesy way to use it is just to visit the 

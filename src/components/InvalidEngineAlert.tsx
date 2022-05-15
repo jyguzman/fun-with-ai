@@ -7,15 +7,18 @@ const InvalidEngineAlert = (props: {open: boolean, closeAlert: Function}) => {
           <Alert
             action = {
               <Button color="inherit" size="small"
-                onClick={() => props.closeAlert()}>
+                onClick={() => props.closeAlert()}
+                sx={{}}>
                   Close
               </Button>
             }
             severity="error"
             color='error'
-            sx={{ mb: 2, '.MuiAlert-icon': {
-              display: "flex", alignSelf: 'center'
-            }}}
+            sx={{ mb: 2, 
+              '.MuiAlert-icon': {
+                display: "flex", alignSelf: 'center'
+              }
+            }}
           >
             Please choose an engine from the dropdown.
           </Alert>
