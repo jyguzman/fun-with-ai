@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { saveCompletions, retrieveCompletions }  from "../utils/storage_utils";
+import { saveCompletions, retrieveCompletions, deleteCompletions }  from "../utils/storage_utils";
 import useFetchEngines from "../hooks/useFetchEngines";
 import { fetchCompletion } from "../utils/apiCallFunctions";
 
@@ -11,6 +11,7 @@ import ResponseList from "./ResponseList";
 import EngineSelect from "./EngineSelect";
 import Header from "./Header";
 import InvalidEngineAlert from "./InvalidEngineAlert";
+import DeleteResponsesButton from "./DeleteResponsesButton";
 
 const MainPage = () => {
     const [prompt, setPrompt] = useState<string>("");
@@ -45,6 +46,11 @@ const MainPage = () => {
         setOpenAlert(false);
     }
 
+    const deleteResponses = (): void => {
+        setCompletions([]);
+        deleteCompletions();
+    }
+
     return (
         <Grid sx={{padding: '5%'}} container 
             direction='column' 
@@ -73,7 +79,14 @@ const MainPage = () => {
             <Grid item>
                 <InvalidEngineAlert open={openAlert} closeAlert={() => setOpenAlert(false)}/>
             </Grid>
-            <Header text={'Responses'}/>
+            <Grid container direction="row" spacing={5} justifyContent='center' alignItems={'center'}>
+                <Grid item>
+                    <Header text={'Responses'}/>
+                </Grid>
+                <Grid item xs={4} sm={2}>
+                    <DeleteResponsesButton deleteResponses={deleteResponses} />
+                </Grid>
+            </Grid>
             <Grid item container spacing={2} justifyContent={'flex-start'} alignItems='center' 
             sx={{width: ['100%', '92.5%', '92.5%', '86%', '75%']}}>
                 <Stack justifyContent={'center'} alignItems='center' spacing={2}>

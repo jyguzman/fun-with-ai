@@ -17,3 +17,7 @@ export const saveEngines = (engines: string[]): void => {
 export const retrieveEngines = (): string[] => {
     return JSON.parse(window.sessionStorage.getItem('engines') ?? '[]');
 }
+
+export const deleteCompletions = (): void => {
+    window.localStorage.removeItem('completions');
+}
