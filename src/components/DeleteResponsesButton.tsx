@@ -12,7 +12,7 @@ const DeleteResponsesButton = (props: {deleteResponses: Function}) => {
     }
     
     return (
-        <Button variant="contained" 
+        <Button variant="outlined" 
             sx={styles.button}
             onClick={() => props.deleteResponses()}>
             Delete Responses

@@ -79,11 +79,11 @@ const MainPage = () => {
             <Grid item>
                 <InvalidEngineAlert open={openAlert} closeAlert={() => setOpenAlert(false)}/>
             </Grid>
-            <Grid container direction="row" spacing={5} justifyContent='center' alignItems={'center'}>
+            <Grid container direction="row" spacing={5} justifyContent='space-around' alignItems='center'>
                 <Grid item>
                     <Header text={'Responses'}/>
                 </Grid>
-                <Grid item xs={4} sm={2}>
+                <Grid container item justifyContent='flex-end' xs={6}>
                     <DeleteResponsesButton deleteResponses={deleteResponses} />
                 </Grid>
             </Grid>
